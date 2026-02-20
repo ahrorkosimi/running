@@ -10,6 +10,7 @@ export default async function Home() {
       </h1>
 
       {data.results.map((block: any) => {
+        // PARAGRAPH
         if (block.type === "paragraph") {
           return (
             <p key={block.id} className="mb-4">
@@ -20,6 +21,7 @@ export default async function Home() {
           )
         }
 
+        // HEADING
         if (block.type === "heading_1") {
           return (
             <h1 key={block.id} className="text-2xl font-bold mb-4">
@@ -27,6 +29,29 @@ export default async function Home() {
                 .map((text: any) => text.plain_text)
                 .join("")}
             </h1>
+          )
+        }
+
+        // ✅ IMAGE (THIS WAS MISSING)
+        if (block.type === "image") {
+          let imageUrl = ""
+
+          if (block.image.type === "external") {
+            imageUrl = block.image.external.url
+          } else if (block.image.type === "file") {
+            imageUrl = block.image.file.url
+          }
+
+          if (!imageUrl) return null
+
+          return (
+            <img
+              key={block.id}
+              src={imageUrl}
+              alt="Notion image"
+              className="mb-6 rounded-lg"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
           )
         }
 
